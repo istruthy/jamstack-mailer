@@ -47,7 +47,20 @@ const Form = () => {
     event.preventDefault();
     console.log({ state });
     setStatus('PENDING');
-    setTimeout(() => setStatus('SUCCESS'), 1000);
+    fetch('/api/contact', {
+      method: 'POST',
+      body: JSON.stringify(state)
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        setStatus('SUCCESS');
+      })
+      .catch(err => {
+        console.error(err);
+        setStatus('ERROR');
+      });
+    // setTimeout(() => setStatus('SUCCESS'), 1000);
   };
 
   if (state.status === 'SUCCESS') {
